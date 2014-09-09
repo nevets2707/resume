@@ -1,0 +1,46 @@
+229--proj1A
+==========
+
+1) Steven Monson - srmonson
+
+2) The overall structure is called image. It holds an int for width, an int for height, and a double indexed array of a struct called pixels.
+The pixel struct holds 4 unsigned chars, one for red, green, blue, and alpha. 
+
+3) openFile - If an image file to be open cannot be found the program promts the user to enter in another string until it's a file that can be opened.
+bw - If the number of arguments isn't 3 the program prints to try again and terminates.
+crop - If the number of arguments isn't 7 the program prints to try again and terminates. If x or y is negative the program prompts the user to enter a valid argument. If the width or height would go past the original boundries of the image the image simply stops at the end of the original picture (prevents segfaults).
+colorshift - If the number of arguments isn't 4 the program prints to try again and terminates. If the patern is unknown it prints to try again and terminates.
+overlay - If the number of arguments isn't 6 the program prints to try again and terminates. If x or y is negative then the program promts the user to enter a valid number. If x or y is outside of the background image it won't be factored into the new image.
+
+4) bw.c - Takes in an image as the 1st argument, turns it black and white, and then saves it to the 2nd argument.
+crop.c - Takes in an image as the 1st argument, crops it starting at x,y position given by the 3rd and 4th argument, goes the given width and height given by the 5th and 6th, then saves that to the file given by the 2nd argument.
+colorshift.c - Takes in an image as the 1st argument, shifts the colors specified by the 3rd argument, saves it to the file given by the 2nd argument.
+overlay.c - Takes in an image as the 2nd argument, it places it on top of the image given by the 1st argument starting at position x,y given by the 4th and 5th argument, then saves to the file given by the 3rd argument
+image.c - Has method, newImg, that creates a new blank image of size w by h and creates the memory for it. Has method, freeImg, that frees the memory of the image.
+openFile.c - Has method, open, that takes in a string for a file. It reads in the binary data to create an image based on the text in the file.
+saveFile.c - Has method, save, that takes in an image and a string for a file. It takes the properties of the image and writes it to the file given.
+
+5) No additional changes
+
+229--proj1B
+==========
+
+1) Steven Monson - srmonson
+
+2) The overall structure is called a meme. It holds a char* for its name and file location, an int counter for how many locations to put text and a double pointer to a struct pos to hold the values, it has a double pointer to a font struct and an int counter for the number of fonts.
+The font struct holds a char* for its name and one for a file location, it holds a double pointer to struct letters and an int to hold how many letters there are.
+The letter struct holds a char for the value and ints for its x, y, width, and heights values.
+The pos struct holds a char* for the name, and two ints for its x and y location.
+
+3) meme - If the number of arguments isn't 3 the program prints so and terminates. If either file cannot be opened the program notifies the user and terminates. If any command is not a valid keyword it prints the tried command and terminates.
+
+4) font.c - Takes in a string for the file to open, opens the file and reads in the data line by line, seperates each line into individual words, if the first word is a keyword then it iterates through the rest of the line and adds the corresponding data, returns a font pointer
+meme.c - main file that runs infile methods to open the .mem file and the .act file
+	readMemeFile - takes a string to a file, opens the file, reads file line by line, seperates each line into individual words, if the first word in a line is a keyword then it stores the coresponding data, returns a completed meme double pointer
+	memeCounter - takes a string to a file, opens the file, finds the MEME line and return how many memes were given in the file
+	readActFile - takes a string to a file, a meme double pointer and the number of memes in the dobule pointer, reads the act file line by line, seperates each line into individual words, if the first word in a line is a keyword then it saves the coresponding data, if the first word is a meme then it performs the action specified, after going through the entire file it overlays all of the text images to the specified image and saves it to the specified location
+		textImg - run if readActFile finds a command to add text, takes in a string to create and a font, runs through each char in the string and checks if the font contains it, if the char is valid it crops the letter and adds it to the image* with addText
+			addText - takes two images, one for the sentance and one for the next letter, it adds the letters width the the sentence and adds its pixel data to the new part of the sentence
+crop2.c - Copy of the crop method without the main method so meme can use it
+overlay2.c - Copy of overlay without the main method so meme can use it
+5) No additional changes
